@@ -55,21 +55,20 @@ public class CryptoManager extends FXMainPane{
 	 */
 	public static String encryptCaesar(String plainText, int key) {
 		//throw new RuntimeException("method not implemented");
-		int ceaserKey = 0,
-			tempLetter,
-			encryptLetter;
+		int tempLetterValue,
+			encryptLetterValue;
 		String ceaserEncryptText = "";
 		char letter,
 			ceaserEncryptLetter;
 		
 		for(int i = 0; i < plainText.length(); i++) {
 			letter = plainText.charAt(i);
-			tempLetter = (int)letter;
-			encryptLetter = tempLetter + ceaserKey;
-			while(encryptLetter > UPPER_BOUND) {
-				encryptLetter -= RANGE;
+			tempLetterValue = (int)(letter);
+			encryptLetterValue = tempLetterValue + key;
+			while(encryptLetterValue > UPPER_BOUND) {
+				encryptLetterValue -= RANGE;
 			}
-			ceaserEncryptLetter = (char)encryptLetter;
+			ceaserEncryptLetter = (char)(encryptLetterValue);
 			ceaserEncryptText += ceaserEncryptLetter;
 		}
 		return ceaserEncryptText;
@@ -88,44 +87,39 @@ public class CryptoManager extends FXMainPane{
 		//throw new RuntimeException("method not implemented");
 		char sentry,
 			encryptChar;
-		String sample = "",
-			sample2 = "",
+		String temp = "",
 			bellasoEncryptText = "";
-		int value1,
-			value2,
-			cipherTxt,
-			cipherPT,
-			cipher,
-			result = 0;
+		int divValue,
+			remValue,
+			cipherTxt_Value,
+			cipherPT_Value,
+			cipherCombination;
 		if (plainText.length() > bellasoStr.length()) {
-			value1 = plainText.length() / bellasoStr.length();
-			value2 = plainText.length() % bellasoStr.length();
+			divValue = plainText.length() / bellasoStr.length();
+			remValue = plainText.length() % bellasoStr.length();
 			
-			for (int i = 0; i < value1; i++) {
+			for (int i = 0; i < divValue; i++) {
 				for (int j = 0; j < bellasoStr.length(); j++) {
 					sentry = bellasoStr.charAt(j);
-					sample2 += sentry;
+					temp += sentry;
 				}
 			}
-			for (int i = 0; i < value2; i++) {
+			for (int i = 0; i < remValue; i++) {
 				sentry = bellasoStr.charAt(i);
-				sample += sentry;
+				temp += sentry;
 			}
-			sample2 += sample;
+			bellasoStr += temp;
 		}
-		for (int i = 0; i < sample2.length(); i++) {
-			cipherTxt = (int)sample2.charAt(i);
-			cipherPT = (int)plainText.charAt(i);
-			cipher = cipherTxt + cipherPT;
+		
+		for (int i = 0; i < plainText.length(); i++) {
+			cipherTxt_Value = (int)bellasoStr.charAt(i);
+			cipherPT_Value = (int)plainText.charAt(i);
+			cipherCombination = cipherTxt_Value + cipherPT_Value;
 			
-			if((cipher < LOWER_BOUND) && (cipher > UPPER_BOUND)) {
-				result = cipherTxt + cipherPT;
+			while(cipherCombination > UPPER_BOUND) {
+				cipherCombination -= RANGE;
 			}
-			
-			while(cipher > UPPER_BOUND) {
-				cipher -= RANGE;
-			}
-			encryptChar = (char)result;
+			encryptChar = (char)cipherCombination;
 			bellasoEncryptText += encryptChar;
 		}
 		return bellasoEncryptText;
@@ -143,18 +137,17 @@ public class CryptoManager extends FXMainPane{
 		//throw new RuntimeException("method not implemented");
 		char letter,
 			ceaserDecryptLetter;
-		int tempLetter,
-			decryptLetter,
-			ceaserKey = 0;
+		int tempLetterValue,
+			decryptLetterValue;
 		String ceaserDecryptText = "";
 		for (int i = 0; i < encryptedText.length(); i++) {
 			letter = encryptedText.charAt(i);
-			tempLetter = (int)letter;
-			decryptLetter = tempLetter - ceaserKey;
-			while(decryptLetter < LOWER_BOUND) {
-				decryptLetter += RANGE;
+			tempLetterValue = (int)(letter);
+			decryptLetterValue = tempLetterValue - key;
+			while(decryptLetterValue < LOWER_BOUND) {
+				decryptLetterValue += RANGE;
 			}
-			ceaserDecryptLetter = (char)decryptLetter;
+			ceaserDecryptLetter = (char)(decryptLetterValue);
 			ceaserDecryptText += ceaserDecryptLetter;
 		}
 		return ceaserDecryptText;
@@ -172,44 +165,39 @@ public class CryptoManager extends FXMainPane{
 		//throw new RuntimeException("method not implemented");
 		char sentry,
 		decryptChar;
-	String sample = "",
-		sample2 = "",
+	String temp = "",
 		bellasoDecryptText = "";
-	int value1,
-		value2,
-		cipherTxt,
-		cipherPT,
-		cipher,
-		result = 0;
+	int divValue,
+		remValue,
+		cipherTxt_Value,
+		cipherPT_Value,
+		cipherCombination;
 	if (encryptedText.length() > bellasoStr.length()) {
-		value1 = encryptedText.length() / bellasoStr.length();
-		value2 = encryptedText.length() % bellasoStr.length();
+		divValue = encryptedText.length() / bellasoStr.length();
+		remValue = encryptedText.length() % bellasoStr.length();
 		
-		for (int i = 0; i < value1; i++) {
+		for (int i = 0; i < divValue; i++) {
 			for (int j = 0; j < bellasoStr.length(); j++) {
 				sentry = bellasoStr.charAt(j);
-				sample2 += sentry;
+				temp += sentry;
 			}
 		}
-		for (int i = 0; i < value2; i++) {
+		for (int i = 0; i < remValue; i++) {
 			sentry = bellasoStr.charAt(i);
-			sample += sentry;
+			temp += sentry;
 		}
-		sample2 += sample;
+		bellasoStr += temp;
 	}
-	for (int i = 0; i < sample2.length(); i++) {
-		cipherTxt = (int)sample2.charAt(i);
-		cipherPT = (int)encryptedText.charAt(i);
-		cipher = cipherTxt - cipherPT;
+	
+	for (int i = 0; i < encryptedText.length(); i++) {
+		cipherTxt_Value = (int)bellasoStr.charAt(i);
+		cipherPT_Value = (int)encryptedText.charAt(i);
+		cipherCombination = cipherTxt_Value - cipherPT_Value;
 		
-		if((cipher < LOWER_BOUND) && (cipher > UPPER_BOUND)) {
-			result = cipherTxt + cipherPT;
+		while(cipherCombination < LOWER_BOUND) {
+			cipherCombination += RANGE;
 		}
-		
-		while(cipher < LOWER_BOUND) {
-			cipher -= RANGE;
-		}
-		decryptChar = (char)result;
+		decryptChar = (char)cipherCombination;
 		bellasoDecryptText += decryptChar;
 	}
 	return bellasoDecryptText;
